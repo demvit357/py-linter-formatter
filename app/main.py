@@ -1,5 +1,3 @@
-from unittest import result
-
 def format_linter_error(error: dict) -> dict:
     return {
         "line" : error["line_number"],
@@ -8,11 +6,18 @@ def format_linter_error(error: dict) -> dict:
         "name" : error["code"],
         "source" : "flake8"
     }
+
+
 def format_single_linter_file(file_path: str, errors: list) -> dict:
     return {
-       "errors": [format_linter_error(res) for res in errors],
-       "path": file_path,
-       "status": "passed" if len(errors) == 0 else "failed"
-   }
+        "errors": [format_linter_error(res) for res in errors],
+        "path": file_path,
+        "status": "passed" if len(errors) == 0 else "failed"
+    }
+
+
 def format_linter_report(linter_report: dict) -> list:
-    return [format_single_linter_file(items, linter_report[items]) for items in linter_report]
+    return [
+        format_single_linter_file(items, linter_report[items])
+        for items in linter_report
+    ]
